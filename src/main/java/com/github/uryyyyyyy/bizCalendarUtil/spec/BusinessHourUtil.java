@@ -1,4 +1,4 @@
-package com.example.util.spec;
+package com.github.uryyyyyyy.bizCalendarUtil.spec;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -6,7 +6,7 @@ import java.time.Year;
 import java.time.ZonedDateTime;
 import java.util.Set;
 
-import com.example.util.util.ZonedDateTimeRange;
+import com.github.uryyyyyyy.bizCalendarUtil.util.ZonedDateTimeRange;
 
 public interface BusinessHourUtil {
 

@@ -1,4 +1,4 @@
-package com.example.util.impl;
+package com.github.uryyyyyyy.bizCalendarUtil.impl;
 
 
 import java.time.LocalDate;
@@ -7,16 +7,14 @@ import java.time.Year;
 import java.time.ZonedDateTime;
 import java.util.Set;
 
-import com.example.util.spec.BusinessHourUtil;
-import com.example.util.util.ZonedDateTimeRange;
-
-import static com.example.util.impl.ImplUtil.recursiveAfter_;
+import com.github.uryyyyyyy.bizCalendarUtil.spec.BusinessHourUtil;
+import com.github.uryyyyyyy.bizCalendarUtil.util.ZonedDateTimeRange;
 
 public class BusinessHourUtilImpl implements BusinessHourUtil {
 
     @Override
     public ZonedDateTime calcNearestTimeAfter(Set<ZonedDateTimeRange> zonedDateTimeRanges, ZonedDateTime target) {
-        return recursiveAfter_(target, zonedDateTimeRanges);
+        return ImplUtil.recursiveAfter_(target, zonedDateTimeRanges);
     }
 
     @Override

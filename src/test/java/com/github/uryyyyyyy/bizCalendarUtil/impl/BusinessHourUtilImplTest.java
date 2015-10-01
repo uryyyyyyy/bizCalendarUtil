@@ -1,12 +1,12 @@
-package com.example.util.impl;
+package com.github.uryyyyyyy.bizCalendarUtil.impl;
 
 import java.time.ZonedDateTime;
 
 import org.junit.Test;
 
-import com.example.util.spec.BusinessHourUtil;
-import com.example.util.util.ZonedDateTimeRange;
-import com.example.util.util.Util;
+import com.github.uryyyyyyy.bizCalendarUtil.spec.BusinessHourUtil;
+import com.github.uryyyyyyy.bizCalendarUtil.util.ZonedDateTimeRange;
+import com.github.uryyyyyyy.bizCalendarUtil.util.Util;
 import com.google.common.collect.ImmutableSet;
 
 import static org.hamcrest.CoreMatchers.is;

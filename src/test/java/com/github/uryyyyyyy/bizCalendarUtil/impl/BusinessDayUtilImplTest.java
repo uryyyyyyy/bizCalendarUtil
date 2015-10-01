@@ -1,4 +1,4 @@
-package com.example.util.impl;
+package com.github.uryyyyyyy.bizCalendarUtil.impl;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.example.util.util.Util;
+import com.github.uryyyyyyy.bizCalendarUtil.util.Util;
 import com.google.common.collect.ImmutableSet;
 
 import static org.hamcrest.CoreMatchers.is;

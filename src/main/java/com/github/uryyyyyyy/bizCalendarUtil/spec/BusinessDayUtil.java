@@ -1,4 +1,4 @@
-package com.example.util.spec;
+package com.github.uryyyyyyy.bizCalendarUtil.spec;
 
 import java.time.LocalDate;
 import java.time.Month;

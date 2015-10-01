@@ -1,4 +1,4 @@
-package com.example.util.impl;
+package com.github.uryyyyyyy.bizCalendarUtil.impl;
 
 
 import java.time.LocalDate;
@@ -8,46 +8,37 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import com.example.util.spec.BusinessDayUtil;
-import com.example.util.util.HolidayPattern;
-
-import static com.example.util.impl.ImplUtil.calcCron;
-import static com.example.util.impl.ImplUtil.calcHoliday;
-import static com.example.util.impl.ImplUtil.minDay;
-import static com.example.util.impl.ImplUtil.maxDay;
-import static com.example.util.impl.ImplUtil.quotient12;
-import static com.example.util.impl.ImplUtil.recursiveAfter;
-import static com.example.util.impl.ImplUtil.recursiveBefore;
-import static com.example.util.impl.ImplUtil.trim;
+import com.github.uryyyyyyy.bizCalendarUtil.spec.BusinessDayUtil;
+import com.github.uryyyyyyy.bizCalendarUtil.util.HolidayPattern;
 
 public class BusinessDayUtilImpl implements BusinessDayUtil {
 
     @Override
     public List<LocalDate> calcBusinessDaysOfEndOfQuarter(Set<LocalDate> holidays, Month beginningOfPeriod) {
         if (holidays.isEmpty()) return new LinkedList<>();
-        LocalDate minDay = minDay(holidays);
-        LocalDate maxDay = maxDay(holidays);
+        LocalDate minDay = ImplUtil.minDay(holidays);
+        LocalDate maxDay = ImplUtil.maxDay(holidays);
 
         int m = beginningOfPeriod.getValue()-1;
-        String targetMonths = quotient12(m) + "," + quotient12(m+3) + "," + quotient12(m+6) + "," + quotient12(m+9);
+        String targetMonths = ImplUtil.quotient12(m) + "," + ImplUtil.quotient12(m + 3) + "," + ImplUtil.quotient12(m + 6) + "," + ImplUtil.quotient12(m + 9);
         String cronPattern = "0 0 0 L " + targetMonths + " ?";
 
-        List<LocalDate> cronDayList = calcCron(cronPattern, minDay, maxDay);
-        List<LocalDate> businessDayList = calcHoliday(cronDayList, holidays, HolidayPattern.BEFORE);
-        return trim(businessDayList, minDay, maxDay);
+        List<LocalDate> cronDayList = ImplUtil.calcCron(cronPattern, minDay, maxDay);
+        List<LocalDate> businessDayList = ImplUtil.calcHoliday(cronDayList, holidays, HolidayPattern.BEFORE);
+        return ImplUtil.trim(businessDayList, minDay, maxDay);
     }
 
     @Override
     public List<LocalDate> calcBusinessDaysOfEndOfMonth(Set<LocalDate> holidays) {
         if (holidays.isEmpty()) return new LinkedList<>();
-        LocalDate minDay = minDay(holidays);
-        LocalDate maxDay = maxDay(holidays);
+        LocalDate minDay = ImplUtil.minDay(holidays);
+        LocalDate maxDay = ImplUtil.maxDay(holidays);
 
         String cronPattern = "0 0 0 L * ?";
 
-        List<LocalDate> cronDayList = calcCron(cronPattern, minDay, maxDay);
-        List<LocalDate> businessDayList = calcHoliday(cronDayList, holidays, HolidayPattern.BEFORE);
-        return trim(businessDayList, minDay, maxDay);
+        List<LocalDate> cronDayList = ImplUtil.calcCron(cronPattern, minDay, maxDay);
+        List<LocalDate> businessDayList = ImplUtil.calcHoliday(cronDayList, holidays, HolidayPattern.BEFORE);
+        return ImplUtil.trim(businessDayList, minDay, maxDay);
     }
 
     @Override
@@ -55,7 +46,7 @@ public class BusinessDayUtilImpl implements BusinessDayUtil {
         if(x < 1) throw new IllegalArgumentException("x must be plus");
         LocalDate acc = targetDate;
         for(int i=0; i<x; i++){
-            acc = recursiveBefore(acc.minusDays(1), holidays);
+            acc = ImplUtil.recursiveBefore(acc.minusDays(1), holidays);
         }
         return acc;
     }
@@ -65,19 +56,19 @@ public class BusinessDayUtilImpl implements BusinessDayUtil {
         if(x < 1) throw new IllegalArgumentException("x must be plus");
         LocalDate acc = targetDate;
         for(int i=0; i<x; i++){
-            acc = recursiveAfter(acc.plusDays(1), holidays);
+            acc = ImplUtil.recursiveAfter(acc.plusDays(1), holidays);
         }
         return acc;
     }
 
     @Override
     public LocalDate calcNearestDateBefore(Set<LocalDate> holidays, LocalDate targetDate) {
-        return recursiveBefore(targetDate, holidays);
+        return ImplUtil.recursiveBefore(targetDate, holidays);
     }
 
     @Override
     public LocalDate calcNearestDateAfter(Set<LocalDate> holidays, LocalDate targetDate) {
-        return recursiveAfter(targetDate, holidays);
+        return ImplUtil.recursiveAfter(targetDate, holidays);
     }
 
     @Override

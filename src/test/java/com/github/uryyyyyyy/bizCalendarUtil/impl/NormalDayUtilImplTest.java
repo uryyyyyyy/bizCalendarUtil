@@ -1,13 +1,11 @@
-package com.example.util.impl;
+package com.github.uryyyyyyy.bizCalendarUtil.impl;
 
 import org.junit.Test;
 
-import com.example.util.spec.NormalHourUtil;
 
+public class NormalDayUtilImplTest {
 
-public class NormalHourUtilImplTest {
-
-    private static final NormalHourUtil NormalHourUtil = new NormalHourUtilImpl();
+    private static final com.github.uryyyyyyy.bizCalendarUtil.spec.NormalDayUtil NormalDayUtil = new NormalDayUtilImpl();
 
     @Test
     public void testCalcLastDateOfMonth() throws Exception {

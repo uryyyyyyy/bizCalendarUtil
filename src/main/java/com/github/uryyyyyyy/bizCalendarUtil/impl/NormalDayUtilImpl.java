@@ -1,4 +1,4 @@
-package com.example.util.impl;
+package com.github.uryyyyyyy.bizCalendarUtil.impl;
 
 
 import java.time.LocalDate;
@@ -6,9 +6,9 @@ import java.time.Month;
 import java.time.Year;
 import java.util.Set;
 
-import com.example.util.spec.NormalHourUtil;
+import com.github.uryyyyyyy.bizCalendarUtil.spec.NormalDayUtil;
 
-public class NormalHourUtilImpl implements NormalHourUtil {
+public class NormalDayUtilImpl implements NormalDayUtil {
 
     @Override
     public LocalDate calcLastDateOfMonth(Year year, Month month) {

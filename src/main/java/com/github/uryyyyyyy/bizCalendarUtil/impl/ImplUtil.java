@@ -1,4 +1,4 @@
-package com.example.util.impl;
+package com.github.uryyyyyyy.bizCalendarUtil.impl;
 
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
@@ -8,9 +8,9 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.example.util.util.HolidayPattern;
-import com.example.util.util.Util;
-import com.example.util.util.ZonedDateTimeRange;
+import com.github.uryyyyyyy.bizCalendarUtil.util.HolidayPattern;
+import com.github.uryyyyyyy.bizCalendarUtil.util.Util;
+import com.github.uryyyyyyy.bizCalendarUtil.util.ZonedDateTimeRange;
 
 class ImplUtil {
 

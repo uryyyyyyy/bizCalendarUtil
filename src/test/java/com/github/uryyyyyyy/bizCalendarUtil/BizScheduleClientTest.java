@@ -1,4 +1,4 @@
-package com.example.util;
+package com.github.uryyyyyyy.bizCalendarUtil;
 
 import org.junit.Test;
 

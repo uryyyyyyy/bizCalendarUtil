@@ -1,4 +1,4 @@
-package com.example.util.util;
+package com.github.uryyyyyyy.bizCalendarUtil.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

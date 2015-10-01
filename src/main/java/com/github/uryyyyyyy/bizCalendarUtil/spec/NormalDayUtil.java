@@ -1,11 +1,11 @@
-package com.example.util.spec;
+package com.github.uryyyyyyy.bizCalendarUtil.spec;
 
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.Year;
 import java.util.Set;
 
-public interface NormalHourUtil {
+public interface NormalDayUtil {
 
     LocalDate calcLastDateOfMonth(Year year, Month month);
 
