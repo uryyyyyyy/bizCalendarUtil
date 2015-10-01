@@ -46,7 +46,7 @@ public class BusinessHourUtilImplTest {
 
         ZonedDateTime target4 = Util.toZonedDateTime("2015-01-02T22:00:00", "Europe/London");
         ZonedDateTime res4 = businessHourUtil.calcNearestTimeAfter(ImmutableSet.of(h1, h2, h3), target4);
-        ZonedDateTime ans4 = Util.toZonedDateTime("2015-01-03T18:00:00", "Europe/London");
+        ZonedDateTime ans4 = Util.toZonedDateTime("2015-01-03T09:00:00", "Europe/London");
         assertThat(res4, is(ans4));
     }
 

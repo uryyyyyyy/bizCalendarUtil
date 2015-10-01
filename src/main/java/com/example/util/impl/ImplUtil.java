@@ -91,7 +91,7 @@ class ImplUtil {
         if(target.isAfter(range.start) && target.isBefore(range.end)){
             return target;
         }else{
-            return range.start;
+            return range.start.withZoneSameInstant(target.getZone());
         }
     }
 
