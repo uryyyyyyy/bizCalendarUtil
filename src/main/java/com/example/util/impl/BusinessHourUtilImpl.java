@@ -7,28 +7,30 @@ import java.time.Year;
 import java.time.ZonedDateTime;
 import java.util.Set;
 
-import com.example.util.util.BusinessHour;
 import com.example.util.spec.BusinessHourUtil;
+import com.example.util.util.ZonedDateTimeRange;
+
+import static com.example.util.impl.ImplUtil.recursiveAfter_;
 
 public class BusinessHourUtilImpl implements BusinessHourUtil {
 
     @Override
-    public ZonedDateTime calcNearestTimeAfter(Set<BusinessHour> businessHours, ZonedDateTime target) {
+    public ZonedDateTime calcNearestTimeAfter(Set<ZonedDateTimeRange> zonedDateTimeRanges, ZonedDateTime target) {
+        return recursiveAfter_(target, zonedDateTimeRanges);
+    }
+
+    @Override
+    public ZonedDateTime calcNearestTimeBefore(Set<ZonedDateTimeRange> zonedDateTimeRanges, ZonedDateTime target) {
         return null;
     }
 
     @Override
-    public ZonedDateTime calcNearestTimeBefore(Set<BusinessHour> businessHours, ZonedDateTime target) {
+    public Set<LocalDate> calcLastTimesOfMonth(Set<ZonedDateTimeRange> zonedDateTimeRanges, ZonedDateTime from, ZonedDateTime to, Set<Year> years, Set<Month> month) {
         return null;
     }
 
     @Override
-    public Set<LocalDate> calcLastTimesOfMonth(Set<BusinessHour> businessHours, ZonedDateTime from, ZonedDateTime to, Set<Year> years, Set<Month> month) {
-        return null;
-    }
-
-    @Override
-    public Set<LocalDate> calcFirstTimesOfMonth(Set<BusinessHour> businessHours, ZonedDateTime from, ZonedDateTime to, Set<Year> years, Set<Month> month) {
+    public Set<LocalDate> calcFirstTimesOfMonth(Set<ZonedDateTimeRange> zonedDateTimeRanges, ZonedDateTime from, ZonedDateTime to, Set<Year> years, Set<Month> month) {
         return null;
     }
 

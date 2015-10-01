@@ -16,6 +16,8 @@ import static com.example.util.impl.ImplUtil.calcHoliday;
 import static com.example.util.impl.ImplUtil.minDay;
 import static com.example.util.impl.ImplUtil.maxDay;
 import static com.example.util.impl.ImplUtil.quotient12;
+import static com.example.util.impl.ImplUtil.recursiveAfter;
+import static com.example.util.impl.ImplUtil.recursiveBefore;
 import static com.example.util.impl.ImplUtil.trim;
 
 public class BusinessDayUtilImpl implements BusinessDayUtil {
@@ -49,23 +51,33 @@ public class BusinessDayUtilImpl implements BusinessDayUtil {
     }
 
     @Override
-    public LocalDate calcBusinessDayBeforeXDay(Set<LocalDate> holidays, LocalDate targetDay, int x) {
-        return null;
+    public LocalDate calcBusinessDayBeforeXDay(Set<LocalDate> holidays, LocalDate targetDate, int x) {
+        if(x < 1) throw new IllegalArgumentException("x must be plus");
+        LocalDate acc = targetDate;
+        for(int i=0; i<x; i++){
+            acc = recursiveBefore(acc.minusDays(1), holidays);
+        }
+        return acc;
     }
 
     @Override
     public LocalDate calcBusinessDayAfterXDay(Set<LocalDate> holidays, LocalDate targetDate, int x) {
-        return null;
+        if(x < 1) throw new IllegalArgumentException("x must be plus");
+        LocalDate acc = targetDate;
+        for(int i=0; i<x; i++){
+            acc = recursiveAfter(acc.plusDays(1), holidays);
+        }
+        return acc;
     }
 
     @Override
     public LocalDate calcNearestDateBefore(Set<LocalDate> holidays, LocalDate targetDate) {
-        return null;
+        return recursiveBefore(targetDate, holidays);
     }
 
     @Override
     public LocalDate calcNearestDateAfter(Set<LocalDate> holidays, LocalDate targetDate) {
-        return null;
+        return recursiveAfter(targetDate, holidays);
     }
 
     @Override

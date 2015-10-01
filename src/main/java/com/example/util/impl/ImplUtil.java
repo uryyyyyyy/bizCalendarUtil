@@ -1,13 +1,16 @@
 package com.example.util.impl;
 
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.example.util.util.HolidayPattern;
 import com.example.util.util.Util;
+import com.example.util.util.ZonedDateTimeRange;
 
 class ImplUtil {
 
@@ -42,7 +45,7 @@ class ImplUtil {
         }
     }
 
-    private static LocalDate recursiveBefore(LocalDate v, Set<LocalDate> holidays) {
+    static LocalDate recursiveBefore(LocalDate v, Set<LocalDate> holidays) {
         LocalDate acc = v;
         while(holidays.contains(acc)){//for performance
             acc = acc.minusDays(1);
@@ -50,12 +53,46 @@ class ImplUtil {
         return acc;
     }
 
-    private static LocalDate recursiveAfter(LocalDate v, Set<LocalDate> holidays) {
+    static ZonedDateTime recursiveBefore_(ZonedDateTime target, Set<ZonedDateTimeRange> zonedDateTimeRanges) {
+        Optional<ZonedDateTimeRange> optRange = zonedDateTimeRanges.stream()
+                .filter(v -> v.start.isBefore(target))
+                .sorted((l, r) -> l.end.isAfter(r.start) ? 1 : -1)
+                .findFirst();
+
+        if(!optRange.isPresent()){
+            return target;
+        }
+        ZonedDateTimeRange range = optRange.get();
+        if(target.isAfter(range.start) && target.isBefore(range.end)){
+            return target;
+        }else{
+            return range.start;
+        }
+    }
+
+    static LocalDate recursiveAfter(LocalDate v, Set<LocalDate> holidays) {
         LocalDate acc = v;
         while(holidays.contains(acc)){//for performance
             acc = acc.plusDays(1);
         }
         return acc;
+    }
+
+    static ZonedDateTime recursiveAfter_(ZonedDateTime target, Set<ZonedDateTimeRange> zonedDateTimeRanges) {
+        Optional<ZonedDateTimeRange> optRange = zonedDateTimeRanges.stream()
+                .filter(v -> v.end.isAfter(target))
+                .sorted((l, r) -> l.start.isAfter(r.start) ? 1 : -1)
+                .findFirst();
+
+        if(!optRange.isPresent()){
+            return target;
+        }
+        ZonedDateTimeRange range = optRange.get();
+        if(target.isAfter(range.start) && target.isBefore(range.end)){
+            return target;
+        }else{
+            return range.start;
+        }
     }
 
     static int quotient12(int m) {

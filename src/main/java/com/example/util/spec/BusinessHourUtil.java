@@ -6,17 +6,17 @@ import java.time.Year;
 import java.time.ZonedDateTime;
 import java.util.Set;
 
-import com.example.util.util.BusinessHour;
+import com.example.util.util.ZonedDateTimeRange;
 
 public interface BusinessHourUtil {
 
-    ZonedDateTime calcNearestTimeAfter(Set<BusinessHour> businessHours, ZonedDateTime target);
+    ZonedDateTime calcNearestTimeAfter(Set<ZonedDateTimeRange> zonedDateTimeRanges, ZonedDateTime target);
 
-    ZonedDateTime calcNearestTimeBefore(Set<BusinessHour> businessHours, ZonedDateTime target);
+    ZonedDateTime calcNearestTimeBefore(Set<ZonedDateTimeRange> zonedDateTimeRanges, ZonedDateTime target);
 
-    Set<LocalDate> calcLastTimesOfMonth(Set<BusinessHour> businessHours, ZonedDateTime from, ZonedDateTime to, Set<Year> years, Set<Month> month);
+    Set<LocalDate> calcLastTimesOfMonth(Set<ZonedDateTimeRange> zonedDateTimeRanges, ZonedDateTime from, ZonedDateTime to, Set<Year> years, Set<Month> month);
 
-    Set<LocalDate> calcFirstTimesOfMonth(Set<BusinessHour> businessHours, ZonedDateTime from, ZonedDateTime to, Set<Year> years, Set<Month> month);
+    Set<LocalDate> calcFirstTimesOfMonth(Set<ZonedDateTimeRange> zonedDateTimeRanges, ZonedDateTime from, ZonedDateTime to, Set<Year> years, Set<Month> month);
 
     Set<ZonedDateTime> createAllDatesByCronPattern(Set<LocalDate> holidays, ZonedDateTime from, ZonedDateTime to, String cronPattern);
 
