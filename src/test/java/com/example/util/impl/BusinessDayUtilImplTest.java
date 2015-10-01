@@ -56,6 +56,7 @@ public class BusinessDayUtilImplTest {
         assertThat(res, contains(ans1, ans2, ans3));
     }
 
+
     @Test
     public void testCalcBusinessDayBeforeXDay() throws Exception {
 
