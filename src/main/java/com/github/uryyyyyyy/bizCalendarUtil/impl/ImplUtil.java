@@ -151,7 +151,7 @@ class ImplUtil {
         try{
             CronExpression cronExpression = new CronExpression(cron);
             Date n = cronExpression.getNextValidTimeAfter(JavaTimeConverter.toDate(target));
-            return JavaTimeConverter.toZonedDateTime(n);
+            return JavaTimeConverter.toZonedDateTime(n, target.getZone());
         }catch (ParseException e){
             throw new RuntimeException("cron pattern error: " + cron,e);
         }

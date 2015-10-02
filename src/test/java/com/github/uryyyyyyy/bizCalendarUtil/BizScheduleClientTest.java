@@ -7,21 +7,11 @@ public class BizScheduleClientTest {
 
     @Test
     public void testGetBusinessDayUtil() throws Exception {
-
+        BizScheduleClient.getBusinessDayUtil();
     }
 
     @Test
     public void testGetBusinessHourUtil() throws Exception {
-
-    }
-
-    @Test
-    public void testGetNormalDayUtil() throws Exception {
-
-    }
-
-    @Test
-    public void testGetNormalHourUtil() throws Exception {
-
+        BizScheduleClient.getBusinessHourUtil();
     }
 }

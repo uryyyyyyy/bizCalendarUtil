@@ -17,14 +17,6 @@ public class BusinessDayUtilImplTest {
 
     private static final BusinessDayUtilImpl businessDayUtil = new BusinessDayUtilImpl();
 
-//    @Test
-//    public void testCron() throws Exception {
-//        ZonedDateTime now = JavaTimeConverter.toZonedDateTime(JavaTimeConverter.createDate("2015/01/01 10:00:00"));
-//        ZonedDateTime next = JavaTimeConverter.getNextValidTimeAfter("0 0 16 8 * ?", now);
-//        ZonedDateTime ans = JavaTimeConverter.toZonedDateTime(JavaTimeConverter.createDate("2015/01/08 16:00:00"));
-//        assertThat(next, is(ans));
-//    }
-
     @Test
     public void testCalcBusinessDaysOfEndOfQuarter() throws Exception {
         LocalDate hol1 = JavaTimeConverter.toLocalDate("2015-01-01");

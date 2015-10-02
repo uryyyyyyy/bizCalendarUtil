@@ -57,13 +57,13 @@ public class JavaTimeConverter {
         return LocalDate.parse(str, DateTimeFormatter.ISO_LOCAL_DATE);
     }
 
-    public static ZonedDateTime toZonedDateTime(Date d) {
-        return d.toInstant().atZone(ZoneId.systemDefault());
+    public static ZonedDateTime toZonedDateTime(Date d, ZoneId zoneId) {
+        return d.toInstant().atZone(zoneId);
     }
 
-    public static ZonedDateTime toZonedDateTime(String str, String str2) {
-        LocalDateTime l = LocalDateTime.parse(str, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-        ZoneId z = ZoneId.of(str2);
+    public static ZonedDateTime toZonedDateTime(String datetime, String zoneId) {
+        LocalDateTime l = LocalDateTime.parse(datetime, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        ZoneId z = ZoneId.of(zoneId);
         return ZonedDateTime.of(l, z);
     }
 }
