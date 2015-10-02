@@ -83,7 +83,7 @@ public class BusinessDayUtilImpl implements BusinessDayUtil {
     @Override
     public List<LocalDate> calcLastDateOfMonth(Set<LocalDate> holidays, Set<Year> years, Set<Month> month) {
         List<LocalDate> targetList = years.stream()
-                .flatMap(y -> month.stream().map(m -> LocalDate.of(y.getValue(), m.getValue()+1, 1)))
+                .flatMap(y -> month.stream().map(m -> LocalDate.of(y.getValue(), m.getValue()+1, 1).minusDays(1)))
                 .sorted((l,r) -> l.isAfter(r) ? 1 : -1)
                 .collect(Collectors.toList());
         return ImplUtil.calcHolidayBefore(targetList, holidays);

@@ -2,10 +2,12 @@ package com.github.uryyyyyyy.bizCalendarUtil.impl;
 
 import java.time.LocalDate;
 import java.time.Month;
+import java.time.Year;
 import java.util.List;
 
 import org.junit.Test;
 
+import com.github.uryyyyyyy.bizCalendarUtil.spec.BusinessDayUtil;
 import com.github.uryyyyyyy.bizCalendarUtil.util.JavaTimeConverter;
 import com.google.common.collect.ImmutableSet;
 
@@ -15,7 +17,7 @@ import static org.junit.Assert.assertThat;
 
 public class BusinessDayUtilImplTest {
 
-    private static final BusinessDayUtilImpl businessDayUtil = new BusinessDayUtilImpl();
+    private static final BusinessDayUtil businessDayUtil = new BusinessDayUtilImpl();
 
     @Test
     public void testCalcBusinessDaysOfEndOfQuarter() throws Exception {
@@ -81,16 +83,6 @@ public class BusinessDayUtilImplTest {
     }
 
     @Test
-    public void testCalcDateAfter() throws Exception {
-
-    }
-
-    @Test
-    public void testCalcDateBefore() throws Exception {
-
-    }
-
-    @Test
     public void testCalcNearestDateBefore() throws Exception {
         LocalDate hol1 = JavaTimeConverter.toLocalDate("2015-02-01");
         LocalDate hol2 = JavaTimeConverter.toLocalDate("2015-01-30");
@@ -126,36 +118,65 @@ public class BusinessDayUtilImplTest {
 
     @Test
     public void testCalcFirstDateOfMonth() throws Exception {
+        LocalDate hol1 = JavaTimeConverter.toLocalDate("2015-01-01");
+        LocalDate hol2 = JavaTimeConverter.toLocalDate("2015-01-02");
+        LocalDate hol3 = JavaTimeConverter.toLocalDate("2015-08-02");
 
+        List<LocalDate> res = businessDayUtil.calcFirstDateOfMonth(ImmutableSet.of(hol1, hol2, hol3),
+                ImmutableSet.of(Year.of(2015)),
+                ImmutableSet.of(Month.JANUARY, Month.AUGUST));
+
+        LocalDate ans1 = JavaTimeConverter.toLocalDate("2015-01-03");
+        LocalDate ans2 = JavaTimeConverter.toLocalDate("2015-08-01");
+        JavaTimeConverter.print(res);
+        assertThat(res, contains(ans1, ans2));
     }
 
     @Test
     public void testCalcLastDateOfMonth() throws Exception {
+        LocalDate hol1 = JavaTimeConverter.toLocalDate("2015-01-31");
+        LocalDate hol2 = JavaTimeConverter.toLocalDate("2015-01-30");
+        LocalDate hol3 = JavaTimeConverter.toLocalDate("2015-09-30");
 
+        List<LocalDate> res = businessDayUtil.calcLastDateOfMonth(ImmutableSet.of(hol1, hol2, hol3),
+                ImmutableSet.of(Year.of(2015)),
+                ImmutableSet.of(Month.JANUARY, Month.SEPTEMBER));
+
+        LocalDate ans1 = JavaTimeConverter.toLocalDate("2015-01-29");
+        LocalDate ans2 = JavaTimeConverter.toLocalDate("2015-09-29");
+        JavaTimeConverter.print(res);
+        assertThat(res, contains(ans1, ans2));
     }
 
     @Test
     public void testCalcNearestDatesByCronPatternAfter() throws Exception {
+        LocalDate hol1 = JavaTimeConverter.toLocalDate("2015-01-31");
+        LocalDate hol2 = JavaTimeConverter.toLocalDate("2015-01-30");
+        LocalDate hol3 = JavaTimeConverter.toLocalDate("2015-09-30");
+        LocalDate hol4 = JavaTimeConverter.toLocalDate("2015-10-31");
 
+        List<LocalDate> res = businessDayUtil.calcNearestDatesByCronPatternAfter(
+                ImmutableSet.of(hol1, hol2, hol3, hol4), "0 0 0 L 1,9 ?");
+
+        LocalDate ans1 = JavaTimeConverter.toLocalDate("2015-02-01");
+        LocalDate ans2 = JavaTimeConverter.toLocalDate("2015-10-01");
+        JavaTimeConverter.print(res);
+        assertThat(res, contains(ans1, ans2));
     }
 
     @Test
     public void testCalcNearestDatesByCronPatternBefore() throws Exception {
+        LocalDate hol1 = JavaTimeConverter.toLocalDate("2015-01-01");
+        LocalDate hol2 = JavaTimeConverter.toLocalDate("2015-01-31");
+        LocalDate hol3 = JavaTimeConverter.toLocalDate("2015-01-30");
+        LocalDate hol4 = JavaTimeConverter.toLocalDate("2015-09-30");
 
-    }
+        List<LocalDate> res = businessDayUtil.calcNearestDatesByCronPatternBefore(
+                ImmutableSet.of(hol1, hol2, hol3, hol4), "0 0 0 L 1,9 ?");
 
-    @Test
-    public void testCreateAllDatesByCronPattern() throws Exception {
-
-    }
-
-    @Test
-    public void testCalcLastDatesOfMonth() throws Exception {
-
-    }
-
-    @Test
-    public void testCalcFirstDatesOfMonth() throws Exception {
-
+        LocalDate ans1 = JavaTimeConverter.toLocalDate("2015-01-29");
+        LocalDate ans2 = JavaTimeConverter.toLocalDate("2015-09-29");
+        JavaTimeConverter.print(res);
+        assertThat(res, contains(ans1, ans2));
     }
 }
