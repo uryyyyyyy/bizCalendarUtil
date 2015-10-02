@@ -7,9 +7,9 @@ import java.time.Year;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.github.uryyyyyyy.bizCalendarUtil.spec.BusinessDayUtil;
-import com.github.uryyyyyyy.bizCalendarUtil.util.HolidayPattern;
 
 public class BusinessDayUtilImpl implements BusinessDayUtil {
 
@@ -24,7 +24,7 @@ public class BusinessDayUtilImpl implements BusinessDayUtil {
         String cronPattern = "0 0 0 L " + targetMonths + " ?";
 
         List<LocalDate> cronDayList = ImplUtil.calcCron(cronPattern, minDay, maxDay);
-        List<LocalDate> businessDayList = ImplUtil.calcHoliday(cronDayList, holidays, HolidayPattern.BEFORE);
+        List<LocalDate> businessDayList = ImplUtil.calcHolidayBefore(cronDayList, holidays);
         return ImplUtil.trim(businessDayList, minDay, maxDay);
     }
 
@@ -37,7 +37,7 @@ public class BusinessDayUtilImpl implements BusinessDayUtil {
         String cronPattern = "0 0 0 L * ?";
 
         List<LocalDate> cronDayList = ImplUtil.calcCron(cronPattern, minDay, maxDay);
-        List<LocalDate> businessDayList = ImplUtil.calcHoliday(cronDayList, holidays, HolidayPattern.BEFORE);
+        List<LocalDate> businessDayList = ImplUtil.calcHolidayBefore(cronDayList, holidays);
         return ImplUtil.trim(businessDayList, minDay, maxDay);
     }
 
@@ -67,27 +67,47 @@ public class BusinessDayUtilImpl implements BusinessDayUtil {
     }
 
     @Override
-    public LocalDate calcNearestDateAfter(Set<LocalDate> holidays, LocalDate targetDate) {
-        return ImplUtil.recursiveAfter(targetDate, holidays);
+    public LocalDate calcNearestDateAfter(Set<LocalDate> holidays, LocalDate target) {
+        return ImplUtil.recursiveAfter(target, holidays);
     }
 
     @Override
-    public LocalDate calcFirstDateOfMonth(Set<LocalDate> holidays, Set<Year> years, Set<Month> month) {
-        return null;
+    public List<LocalDate> calcFirstDateOfMonth(Set<LocalDate> holidays, Set<Year> years, Set<Month> month) {
+        List<LocalDate> targetList = years.stream()
+                .flatMap(y -> month.stream().map(m -> LocalDate.of(y.getValue(), m.getValue(), 1)))
+                .sorted((l,r) -> l.isAfter(r) ? 1 : -1)
+                .collect(Collectors.toList());
+        return ImplUtil.calcHolidayAfter(targetList, holidays);
     }
 
     @Override
-    public LocalDate calcLastDateOfMonth(Set<LocalDate> holidays, Set<Year> years, Set<Month> month) {
-        return null;
+    public List<LocalDate> calcLastDateOfMonth(Set<LocalDate> holidays, Set<Year> years, Set<Month> month) {
+        List<LocalDate> targetList = years.stream()
+                .flatMap(y -> month.stream().map(m -> LocalDate.of(y.getValue(), m.getValue()+1, 1)))
+                .sorted((l,r) -> l.isAfter(r) ? 1 : -1)
+                .collect(Collectors.toList());
+        return ImplUtil.calcHolidayBefore(targetList, holidays);
     }
 
     @Override
     public List<LocalDate> calcNearestDatesByCronPatternAfter(Set<LocalDate> holidays, String cronPattern) {
-        return null;
+        if (holidays.isEmpty()) return new LinkedList<>();
+        LocalDate minDay = ImplUtil.minDay(holidays);
+        LocalDate maxDay = ImplUtil.maxDay(holidays);
+
+        List<LocalDate> cronDayList = ImplUtil.calcCron(cronPattern, minDay, maxDay);
+        List<LocalDate> businessDayList = ImplUtil.calcHolidayAfter(cronDayList, holidays);
+        return ImplUtil.trim(businessDayList, minDay, maxDay);
     }
 
     @Override
     public List<LocalDate> calcNearestDatesByCronPatternBefore(Set<LocalDate> holidays, String cronPattern) {
-        return null;
+        if (holidays.isEmpty()) return new LinkedList<>();
+        LocalDate minDay = ImplUtil.minDay(holidays);
+        LocalDate maxDay = ImplUtil.maxDay(holidays);
+
+        List<LocalDate> cronDayList = ImplUtil.calcCron(cronPattern, minDay, maxDay);
+        List<LocalDate> businessDayList = ImplUtil.calcHolidayBefore(cronDayList, holidays);
+        return ImplUtil.trim(businessDayList, minDay, maxDay);
     }
 }

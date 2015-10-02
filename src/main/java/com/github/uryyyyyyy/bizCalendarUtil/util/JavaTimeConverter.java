@@ -5,18 +5,15 @@ import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Set;
 
-import org.quartz.CronExpression;
+public class JavaTimeConverter {
 
-public class Util {
-
-    public static Date createDate(String s){
+    public static Date toDate(String s){
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         try {
             return formatter.parse(s);
@@ -60,10 +57,6 @@ public class Util {
         return LocalDate.parse(str, DateTimeFormatter.ISO_LOCAL_DATE);
     }
 
-    public static LocalTime toLocalTime(String str) {
-        return LocalTime.parse(str, DateTimeFormatter.ISO_LOCAL_TIME);
-    }
-
     public static ZonedDateTime toZonedDateTime(Date d) {
         return d.toInstant().atZone(ZoneId.systemDefault());
     }
@@ -72,25 +65,5 @@ public class Util {
         LocalDateTime l = LocalDateTime.parse(str, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
         ZoneId z = ZoneId.of(str2);
         return ZonedDateTime.of(l, z);
-    }
-
-    public static ZonedDateTime getNextValidTimeAfter(String cron, ZonedDateTime target) {
-        try{
-            CronExpression cronExpression = new CronExpression(cron);
-            Date n = cronExpression.getNextValidTimeAfter(Util.toDate(target));
-            return Util.toZonedDateTime(n);
-        }catch (ParseException e){
-            throw new RuntimeException("cron pattern error: " + cron,e);
-        }
-    }
-
-    public static LocalDate getNextValidTimeAfter(String cron, LocalDate target) {
-        try{
-            CronExpression cronExpression = new CronExpression(cron);
-            Date n = cronExpression.getNextValidTimeAfter(Util.toDate(target));
-            return Util.toLocalDate(n);
-        }catch (ParseException e){
-            throw new RuntimeException("cron pattern error: " + cron,e);
-        }
     }
 }

@@ -75,7 +75,7 @@ public interface BusinessDayUtil {
      @param years: 対象年
      @param month: 対象月
      */
-    LocalDate calcFirstDateOfMonth(Set<LocalDate> holidays, Set<Year> years, Set<Month> month);
+    List<LocalDate> calcFirstDateOfMonth(Set<LocalDate> holidays, Set<Year> years, Set<Month> month);
 
     /**
      対象月の月末の営業日を算出する。<br>
@@ -85,7 +85,7 @@ public interface BusinessDayUtil {
      @param years: 対象年
      @param month: 対象月
      */
-    LocalDate calcLastDateOfMonth(Set<LocalDate> holidays, Set<Year> years, Set<Month> month);
+    List<LocalDate> calcLastDateOfMonth(Set<LocalDate> holidays, Set<Year> years, Set<Month> month);
 
     /**
      cronパターンで求めた各日付に最も近い営業日を算出する。<br>
