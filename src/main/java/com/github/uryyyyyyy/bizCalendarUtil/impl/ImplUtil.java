@@ -87,7 +87,7 @@ class ImplUtil {
     static ZonedDateTime recursiveBefore_(ZonedDateTime target, Set<ZonedDateTimeRange> zonedDateTimeRanges) {
         Optional<ZonedDateTimeRange> optRange = zonedDateTimeRanges.stream()
                 .filter(v -> v.start.isBefore(target))
-                .sorted((l, r) -> l.end.isAfter(r.start) ? 1 : -1)
+                .sorted((l, r) -> l.end.isBefore(r.end) ? 1 : -1)
                 .findFirst();
 
         if(!optRange.isPresent()){
@@ -97,7 +97,7 @@ class ImplUtil {
         if(target.isAfter(range.start) && target.isBefore(range.end)){
             return target;
         }else{
-            return range.start;
+            return range.end.withZoneSameInstant(target.getZone());
         }
     }
 
@@ -140,7 +140,7 @@ class ImplUtil {
     }
 
     static ZonedDateTime minDay_(Set<ZonedDateTimeRange> range) {
-        return range.stream().map(v -> v.start).max((l, r) -> l.isAfter(r) ? 1 : -1).get();
+        return range.stream().map(v -> v.start).min((l, r) -> l.isAfter(r) ? 1 : -1).get();
     }
 
     static ZonedDateTime maxDay_(Set<ZonedDateTimeRange> range) {
