@@ -27,7 +27,7 @@ class ImplUtil {
             acc = newOne;
         }
         //last one is out of range... but it may used by business day
-        return cronList;
+        return trim(cronList, minDay, maxDay);
     }
 
     static List<ZonedDateTime> calcCron(String cronPattern, ZonedDateTime minDay, ZonedDateTime maxDay, ZoneId zoneId) {
@@ -44,15 +44,15 @@ class ImplUtil {
 
     static List<LocalDate> trim(List<LocalDate> holidayList, LocalDate minDay, LocalDate maxDay) {
         return holidayList.stream()
-                .filter(v -> minDay.isBefore(v))
-                .filter(v -> maxDay.isAfter(v))
+                .filter(v -> !minDay.isAfter(v))
+                .filter(v -> !maxDay.isBefore(v))
                 .distinct().collect(Collectors.toList());
     }
 
     static List<ZonedDateTime> trim(List<ZonedDateTime> targetList, ZonedDateTime minDay, ZonedDateTime maxDay) {
         return targetList.stream()
-                .filter(v -> minDay.isBefore(v))
-                .filter(v -> maxDay.isAfter(v))
+                .filter(v -> !minDay.isAfter(v))
+                .filter(v -> !maxDay.isBefore(v))
                 .distinct().collect(Collectors.toList());
     }
 

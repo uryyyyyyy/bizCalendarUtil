@@ -96,8 +96,7 @@ public class BusinessDayUtilImpl implements BusinessDayUtil {
         LocalDate maxDay = ImplUtil.maxDay(holidays);
 
         List<LocalDate> cronDayList = ImplUtil.calcCron(cronPattern, minDay, maxDay);
-        List<LocalDate> businessDayList = ImplUtil.calcHolidayAfter(cronDayList, holidays);
-        return ImplUtil.trim(businessDayList, minDay, maxDay);
+        return ImplUtil.calcHolidayAfter(cronDayList, holidays);
     }
 
     @Override
@@ -107,7 +106,6 @@ public class BusinessDayUtilImpl implements BusinessDayUtil {
         LocalDate maxDay = ImplUtil.maxDay(holidays);
 
         List<LocalDate> cronDayList = ImplUtil.calcCron(cronPattern, minDay, maxDay);
-        List<LocalDate> businessDayList = ImplUtil.calcHolidayBefore(cronDayList, holidays);
-        return ImplUtil.trim(businessDayList, minDay, maxDay);
+        return ImplUtil.calcHolidayBefore(cronDayList, holidays);
     }
 }
