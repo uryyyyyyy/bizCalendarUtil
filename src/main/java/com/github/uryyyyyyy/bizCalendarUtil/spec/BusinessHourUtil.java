@@ -11,16 +11,16 @@ import com.github.uryyyyyyy.bizCalendarUtil.util.ZonedDateTimeRange;
 
 public interface BusinessHourUtil {
 
-    ZonedDateTime calcNearestTimeAfter(Set<ZonedDateTimeRange> zonedDateTimeRanges, ZonedDateTime target);
+    ZonedDateTimeRange calcNearestTimeAfter(Set<ZonedDateTimeRange> zonedDateTimeRanges, ZonedDateTime target);
 
-    ZonedDateTime calcNearestTimeBefore(Set<ZonedDateTimeRange> zonedDateTimeRanges, ZonedDateTime target);
+    ZonedDateTimeRange calcNearestTimeBefore(Set<ZonedDateTimeRange> zonedDateTimeRanges, ZonedDateTime target);
 
-    List<ZonedDateTime> calcLastTimesOfMonth(Set<ZonedDateTimeRange> zonedDateTimeRanges, Set<Year> years, Set<Month> month, ZoneId zoneId);
+    List<ZonedDateTimeRange> calcLastTimesOfMonth(Set<ZonedDateTimeRange> zonedDateTimeRanges, Set<Year> years, Set<Month> month, ZoneId zoneId);
 
-    List<ZonedDateTime> calcFirstTimesOfMonth(Set<ZonedDateTimeRange> zonedDateTimeRanges, Set<Year> years, Set<Month> month, ZoneId zoneId);
+    List<ZonedDateTimeRange> calcFirstTimesOfMonth(Set<ZonedDateTimeRange> zonedDateTimeRanges, Set<Year> years, Set<Month> month, ZoneId zoneId);
 
-    List<ZonedDateTime> calcNearestDatesByCronPatternBefore(Set<ZonedDateTimeRange> zonedDateTimeRanges, String cronPattern, ZoneId zoneId);
+    List<ZonedDateTimeRange> calcNearestDatesByCronPatternBefore(Set<ZonedDateTimeRange> zonedDateTimeRanges, String cronPattern, ZoneId zoneId);
 
-    List<ZonedDateTime> calcNearestDatesByCronPatternAfter(Set<ZonedDateTimeRange> zonedDateTimeRanges, String cronPattern, ZoneId zoneId);
+    List<ZonedDateTimeRange> calcNearestDatesByCronPatternAfter(Set<ZonedDateTimeRange> zonedDateTimeRanges, String cronPattern, ZoneId zoneId);
 
 }

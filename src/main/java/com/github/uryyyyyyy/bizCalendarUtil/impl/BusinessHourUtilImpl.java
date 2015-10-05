@@ -18,17 +18,17 @@ import com.github.uryyyyyyy.bizCalendarUtil.util.ZonedDateTimeRange;
 public class BusinessHourUtilImpl implements BusinessHourUtil {
 
     @Override
-    public ZonedDateTime calcNearestTimeAfter(Set<ZonedDateTimeRange> zonedDateTimeRanges, ZonedDateTime target) {
+    public ZonedDateTimeRange calcNearestTimeAfter(Set<ZonedDateTimeRange> zonedDateTimeRanges, ZonedDateTime target) {
         return ImplUtil.recursiveAfter_(target, zonedDateTimeRanges);
     }
 
     @Override
-    public ZonedDateTime calcNearestTimeBefore(Set<ZonedDateTimeRange> zonedDateTimeRanges, ZonedDateTime target) {
+    public ZonedDateTimeRange calcNearestTimeBefore(Set<ZonedDateTimeRange> zonedDateTimeRanges, ZonedDateTime target) {
         return ImplUtil.recursiveBefore_(target, zonedDateTimeRanges);
     }
 
     @Override
-    public List<ZonedDateTime> calcLastTimesOfMonth(Set<ZonedDateTimeRange> zonedDateTimeRanges, Set<Year> years, Set<Month> month, ZoneId zoneId) {
+    public List<ZonedDateTimeRange> calcLastTimesOfMonth(Set<ZonedDateTimeRange> zonedDateTimeRanges, Set<Year> years, Set<Month> month, ZoneId zoneId) {
         List<ZonedDateTime> targetList = years.stream()
                 .flatMap(y -> month.stream().map(m -> LocalDate.of(y.getValue(), m.getValue()+1, 1)))
                 .sorted((l, r) -> l.isAfter(r) ? 1 : -1)
@@ -38,7 +38,7 @@ public class BusinessHourUtilImpl implements BusinessHourUtil {
     }
 
     @Override
-    public List<ZonedDateTime> calcFirstTimesOfMonth(Set<ZonedDateTimeRange> zonedDateTimeRanges, Set<Year> years, Set<Month> month, ZoneId zoneId) {
+    public List<ZonedDateTimeRange> calcFirstTimesOfMonth(Set<ZonedDateTimeRange> zonedDateTimeRanges, Set<Year> years, Set<Month> month, ZoneId zoneId) {
         List<ZonedDateTime> targetList = years.stream()
                 .flatMap(y -> month.stream().map(m -> LocalDate.of(y.getValue(), m.getValue(), 1)))
                 .sorted((l, r) -> l.isAfter(r) ? 1 : -1)
@@ -48,24 +48,22 @@ public class BusinessHourUtilImpl implements BusinessHourUtil {
     }
 
     @Override
-    public List<ZonedDateTime> calcNearestDatesByCronPatternBefore(Set<ZonedDateTimeRange> zonedDateTimeRanges, String cronPattern, ZoneId zoneId) {
+    public List<ZonedDateTimeRange> calcNearestDatesByCronPatternBefore(Set<ZonedDateTimeRange> zonedDateTimeRanges, String cronPattern, ZoneId zoneId) {
         if (zonedDateTimeRanges.isEmpty()) return new LinkedList<>();
         ZonedDateTime minDay = ImplUtil.minDay_(zonedDateTimeRanges);
         ZonedDateTime maxDay = ImplUtil.maxDay_(zonedDateTimeRanges);
 
         List<ZonedDateTime> cronDayList = ImplUtil.calcCron(cronPattern, minDay, maxDay, zoneId);
-        List<ZonedDateTime> businessDayList = ImplUtil.calcBusinessTimeBefore(cronDayList, zonedDateTimeRanges);
-        return ImplUtil.trim(businessDayList, minDay, maxDay);
+        return ImplUtil.calcBusinessTimeBefore(cronDayList, zonedDateTimeRanges);
     }
 
     @Override
-    public List<ZonedDateTime> calcNearestDatesByCronPatternAfter(Set<ZonedDateTimeRange> zonedDateTimeRanges, String cronPattern, ZoneId zoneId) {
+    public List<ZonedDateTimeRange> calcNearestDatesByCronPatternAfter(Set<ZonedDateTimeRange> zonedDateTimeRanges, String cronPattern, ZoneId zoneId) {
         if (zonedDateTimeRanges.isEmpty()) return new LinkedList<>();
         ZonedDateTime minDay = ImplUtil.minDay_(zonedDateTimeRanges);
         ZonedDateTime maxDay = ImplUtil.maxDay_(zonedDateTimeRanges);
 
         List<ZonedDateTime> cronDayList = ImplUtil.calcCron(cronPattern, minDay, maxDay, zoneId);
-        List<ZonedDateTime> businessDayList = ImplUtil.calcBusinessTimeAfter(cronDayList, zonedDateTimeRanges);
-        return ImplUtil.trim(businessDayList, minDay, maxDay);
+        return ImplUtil.calcBusinessTimeAfter(cronDayList, zonedDateTimeRanges);
     }
 }

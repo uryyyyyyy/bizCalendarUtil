@@ -39,7 +39,7 @@ class ImplUtil {
             acc = newOne;
         }
         //last one is out of range... but it may used by business day
-        return cronList;
+        return trim(cronList, minDay, maxDay);
     }
 
     static List<LocalDate> trim(List<LocalDate> holidayList, LocalDate minDay, LocalDate maxDay) {
@@ -49,8 +49,8 @@ class ImplUtil {
                 .distinct().collect(Collectors.toList());
     }
 
-    static List<ZonedDateTime> trim(List<ZonedDateTime> businessTimeList, ZonedDateTime minDay, ZonedDateTime maxDay) {
-        return businessTimeList.stream()
+    static List<ZonedDateTime> trim(List<ZonedDateTime> targetList, ZonedDateTime minDay, ZonedDateTime maxDay) {
+        return targetList.stream()
                 .filter(v -> minDay.isBefore(v))
                 .filter(v -> maxDay.isAfter(v))
                 .distinct().collect(Collectors.toList());
@@ -76,29 +76,24 @@ class ImplUtil {
         return acc;
     }
 
-    static List<ZonedDateTime> calcBusinessTimeBefore(List<ZonedDateTime> targetList, Set<ZonedDateTimeRange> businessDays) {
+    static List<ZonedDateTimeRange> calcBusinessTimeBefore(List<ZonedDateTime> targetList, Set<ZonedDateTimeRange> businessDays) {
         return targetList.stream().map(v -> recursiveBefore_(v, businessDays)).collect(Collectors.toList());
     }
 
-    static List<ZonedDateTime> calcBusinessTimeAfter(List<ZonedDateTime> targetList, Set<ZonedDateTimeRange> businessDays) {
+    static List<ZonedDateTimeRange> calcBusinessTimeAfter(List<ZonedDateTime> targetList, Set<ZonedDateTimeRange> businessDays) {
         return targetList.stream().map(v -> recursiveAfter_(v, businessDays)).collect(Collectors.toList());
     }
 
-    static ZonedDateTime recursiveBefore_(ZonedDateTime target, Set<ZonedDateTimeRange> zonedDateTimeRanges) {
+    static ZonedDateTimeRange recursiveBefore_(ZonedDateTime target, Set<ZonedDateTimeRange> zonedDateTimeRanges) {
         Optional<ZonedDateTimeRange> optRange = zonedDateTimeRanges.stream()
                 .filter(v -> v.start.isBefore(target))
                 .sorted((l, r) -> l.end.isBefore(r.end) ? 1 : -1)
                 .findFirst();
 
         if(!optRange.isPresent()){
-            return target;
+            throw new IllegalArgumentException("target:(" + target +") is not in businessRange");
         }
-        ZonedDateTimeRange range = optRange.get();
-        if(target.isAfter(range.start) && target.isBefore(range.end)){
-            return target;
-        }else{
-            return range.end.withZoneSameInstant(target.getZone());
-        }
+        return optRange.get();
     }
 
     static LocalDate recursiveAfter(LocalDate v, Set<LocalDate> holidays) {
@@ -109,21 +104,16 @@ class ImplUtil {
         return acc;
     }
 
-    static ZonedDateTime recursiveAfter_(ZonedDateTime target, Set<ZonedDateTimeRange> zonedDateTimeRanges) {
+    static ZonedDateTimeRange recursiveAfter_(ZonedDateTime target, Set<ZonedDateTimeRange> zonedDateTimeRanges) {
         Optional<ZonedDateTimeRange> optRange = zonedDateTimeRanges.stream()
                 .filter(v -> v.end.isAfter(target))
                 .sorted((l, r) -> l.start.isAfter(r.start) ? 1 : -1)
                 .findFirst();
 
         if(!optRange.isPresent()){
-            return target;
+            throw new IllegalArgumentException("target:(" + target +") is not in businessRange");
         }
-        ZonedDateTimeRange range = optRange.get();
-        if(target.isAfter(range.start) && target.isBefore(range.end)){
-            return target;
-        }else{
-            return range.start.withZoneSameInstant(target.getZone());
-        }
+        return optRange.get();
     }
 
     static int quotient12(int m) {
