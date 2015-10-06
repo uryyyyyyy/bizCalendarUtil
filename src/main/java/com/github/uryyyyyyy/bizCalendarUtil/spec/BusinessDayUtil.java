@@ -8,7 +8,7 @@ import java.util.Set;
 
 /**
  営業日を考慮したスケジュール計算用API.
- 純粋な関数にしたいため、各メソッドの引数に休日一覧を入れてもらう形を取る。
+ 各メソッドの引数に休日一覧を入れてもらう形を取る。
  */
 public interface BusinessDayUtil {
 
